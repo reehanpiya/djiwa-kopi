@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djiwakopi — Menyeduh Cerita, Menghangatkan Jiwa</title>
+    <meta name="description" content="Djiwakopi adalah ruang singgah hangat dengan sajian biji kopi pilihan Nusantara terbaik, manual brew otentik, dan suasana nyaman untuk bekerja maupun berbincang.">
+    
+    <!-- Google Fonts: Cormorant Garamond (Serif) & Plus Jakarta Sans (Sans-Serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F7F2E9',
+                            200: '#EDE3D2',
+                            300: '#DFD0B8',
+                        },
+                        espresso: {
+                            700: '#4A3525',
+                            800: '#322217',
+                            900: '#1F140E',
+                            950: '#140C08',
+                        },
+                        terracotta: {
+                            500: '#C86D51',
+                            600: '#B0583D',
+                            700: '#8F422B',
+                        },
+                        gold: {
+                            400: '#D4AF37',
+                            500: '#B89047',
+                            600: '#9A7432',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Kustomisasi Scrollbar & Utilitas Tambahan */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F2E9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #B89047;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8F422B;
+        }
+        .glass-nav {
+            background: rgba(253, 251, 247, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(20, 12, 8, 0.65) 0%, rgba(31, 20, 14, 0.78) 60%, rgba(20, 12, 8, 0.92) 100%);
+        }
+        /* Animasi transisi kartu menu */
+        .menu-card {
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-6px);
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-espresso-900 font-sans antialiased selection:bg-terracotta-500 selection:text-white overflow-x-hidden">
+
+    <!-- Notifikasi Toast (Pengganti alert()) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- 1. STICKY NAVBAR RESPONSIF -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-4 px-4 sm:px-8 border-b border-transparent">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#beranda" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-gold-500/20 border border-gold-500 flex items-center justify-center text-gold-400 group-hover:bg-gold-500 group-hover:text-espresso-950 transition-colors">
+                    <i class="fa-solid fa-mug-hot text-lg"></i>
+                </div>
+                <span id="nav-brand-text" class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-cream-50 transition-colors">
+                    Djiwa<span class="text-gold-400 italic font-normal">kopi</span>
+                </span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#beranda" class="nav-link text-sm font-medium tracking-wider uppercase text-cream-100 hover:text-gold-400 transition-colors">Beranda</a>
+                <a href="#tentang" class="nav-link text-sm font-medium tracking-wider uppercase text-cream-100 hover:text-gold-400 transition-colors">Tentang Kami</a>
+                <a href="#menu" class="nav-link text-sm font-medium tracking-wider uppercase text-cream-100 hover:text-gold-400 transition-colors">Menu</a>
+                <a href="#suasana" class="nav-link text-sm font-medium tracking-wider uppercase text-cream-100 hover:text-gold-400 transition-colors">Galeri & Suasana</a>
+                <a href="#lokasi" class="nav-link text-sm font-medium tracking-wider uppercase text-cream-100 hover:text-gold-400 transition-colors">Lokasi & Kontak</a>
+            </nav>
+
+            <!-- CTA Desktop & Mobile Hamburger -->
+            <div class="flex items-center gap-3">
+                <a href="#lokasi" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white text-sm font-medium transition-all shadow-md hover:shadow-lg">
+                    <span>Reservasi Meja</span>
+                </a>
+                <button id="mobile-menu-btn" aria-label="Buka Menu Navigasi" class="md:hidden p-2.5 rounded-xl text-cream-50 hover:bg-white/10 focus:outline-none transition-colors">
+                    <i id="hamburger-icon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 mx-2 p-5 rounded-2xl bg-espresso-900/95 backdrop-blur-md border border-gold-500/20 shadow-2xl">
+            <nav class="flex flex-col space-y-3">
+                <a href="#beranda" class="mobile-link px-4 py-2.5 rounded-xl text-cream-100 hover:bg-white/10 hover:text-gold-400 font-medium transition-colors">Beranda</a>
+                <a href="#tentang" class="mobile-link px-4 py-2.5 rounded-xl text-cream-100 hover:bg-white/10 hover:text-gold-400 font-medium transition-colors">Tentang Kami</a>
+                <a href="#menu" class="mobile-link px-4 py-2.5 rounded-xl text-cream-100 hover:bg-white/10 hover:text-gold-400 font-medium transition-colors">Menu Andalan</a>
+                <a href="#suasana" class="mobile-link px-4 py-2.5 rounded-xl text-cream-100 hover:bg-white/10 hover:text-gold-400 font-medium transition-colors">Galeri & Suasana</a>
+                <a href="#lokasi" class="mobile-link px-4 py-2.5 rounded-xl text-cream-100 hover:bg-white/10 hover:text-gold-400 font-medium transition-colors">Lokasi & Kontak</a>
+                <div class="pt-2 border-t border-white/10">
+                    <a href="#lokasi" class="mobile-link block text-center w-full py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium transition-colors">
+                        Reservasi Meja Sekarang
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION FULL-SCREEN -->
+    <section id="beranda" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image dengan Fallback -->
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80" 
+             onerror="this.src='https://placehold.co/1920x1080/1F140E/D4AF37?text=Djiwakopi+Roastery'" 
+             alt="Suasana Seduhan Kopi Hangat Djiwakopi" 
+             class="absolute inset-0 w-full h-full object-cover object-center scale-105">
+        <div class="hero-overlay absolute inset-0"></div>
+
+        <!-- Konten Utama Hero -->
+        <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center pt-20 pb-12 animate-slide-up">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-gold-400/30 text-gold-400 text-xs sm:text-sm tracking-widest uppercase mb-6">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
+                <span>Est. 2021 • Kopi Pilihan Nusantara</span>
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-cream-50 leading-tight mb-6">
+                Setiap Tetes Memiliki <span class="italic font-normal text-gold-400">Jiwa</span>, Setiap Tegukan Merangkai <span class="italic font-normal text-terracotta-500">Cerita</span>.
+            </h1>
+            
+            <p class="text-cream-200 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10">
+                Di Djiwakopi, kami percaya secangkir kopi bukan sekadar pelepas dahaga, melainkan jembatan ketenangan di tengah riuhnya hari—diseduh perlahan dari biji terbaik bumi Indonesia.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#menu" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gold-500 hover:bg-gold-600 text-espresso-950 font-semibold tracking-wide transition-all shadow-lg hover:shadow-gold-500/25 flex items-center justify-center gap-2">
+                    <span>Jelajahi Menu Kami</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </a>
+                <a href="#lokasi" class="w-full sm:w-auto px-8 py-4 rounded-full bg-transparent hover:bg-white/10 text-cream-50 border border-cream-200/40 font-medium tracking-wide transition-all flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-calendar-check text-gold-400"></i>
+                    <span>Reservasi Tempat</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Indikator Scroll ke Bawah -->
+        <a href="#tentang" aria-label="Gulir ke Tentang Kami" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-cream-200/70 hover:text-gold-400 transition-colors animate-bounce">
+            <i class="fa-solid fa-chevron-down text-xl"></i>
+        </a>
+    </section>
+
+    <!-- 3. TENTANG KAMI (FILOSOFI & BIJI KOPI NUSANTARA) -->
+    <section id="tentang" class="py-20 sm:py-28 px-5 sm:px-8 bg-cream-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                <!-- Kolom Visual Kiri -->
+                <div class="lg:col-span-6 relative">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1000&q=80" 
+                             onerror="this.src='https://placehold.co/800x1000/322217/F7F2E9?text=Filosofi+Djiwakopi'" 
+                             alt="Barista Djiwakopi menyeduh kopi manual brew" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <!-- Kartu Kutipan Melayang -->
+                    <div class="hidden sm:block absolute -bottom-8 -right-6 max-w-xs p-6 rounded-2xl bg-espresso-900 text-cream-50 shadow-xl border border-gold-500/20">
+                        <i class="fa-solid fa-quote-left text-gold-400 text-2xl mb-2 block"></i>
+                        <p class="font-serif italic text-lg leading-snug text-cream-100 mb-3">
+                            "Kopi yang baik lahir dari tanah yang dirawat dengan cinta dan tangan yang menyeduh dengan sabar."
+                        </p>
+                        <p class="text-xs uppercase tracking-widest text-gold-400 font-semibold">— Kepala Roaster Djiwakopi</p>
+                    </div>
+                </div>
+
+                <!-- Kolom Narasi Kanan -->
+                <div class="lg:col-span-6">
+                    <span class="text-terracotta-600 font-semibold text-xs sm:text-sm uppercase tracking-widest block mb-3">Tentang Djiwakopi</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-espresso-900 leading-tight mb-6">
+                        Merayakan Kekayaan Rasa <span class="italic font-normal text-terracotta-600">Nusantara</span> dalam Ruang yang Hangat
+                    </h2>
+                    <p class="text-espresso-700 text-base sm:text-lg leading-relaxed mb-5">
+                        Lahir dari kecintaan mendalam terhadap kekayaan agrikultur Indonesia, <strong>Djiwakopi</strong> hadir sebagai ruang ketiga antara rumah dan tempat kerja. Kami bekerja sama langsung dengan petani kopi lokal di dataran tinggi Aceh Gayo, Toraja, Flores Bajawa, hingga Priangan.
+                    </p>
+                    <p class="text-espresso-700 text-base leading-relaxed mb-8">
+                        Setiap batch biji kopi disangrai secara <em>small-batch</em> di ruang sangrai kami untuk menjaga karakter alami buah, cokelat, dan rempah khas masing-masing daerah—memastikan setiap cangkir menghadirkan kehangatan yang jujur.
+                    </p>
+
+                    <!-- 3 Pilar Keunggulan -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-cream-300">
+                        <div>
+                            <div class="w-11 h-11 rounded-2xl bg-terracotta-500/10 text-terracotta-600 flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-seedling text-lg"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-espresso-900 mb-1">100% Single Origin</h3>
+                            <p class="text-sm text-espresso-700">Biji kopi pilihan langsung dari petani lokal Nusantara.</p>
+                        </div>
+                        <div>
+                            <div class="w-11 h-11 rounded-2xl bg-gold-500/15 text-gold-600 flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-fire-burner text-lg"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-espresso-900 mb-1">Freshly Roasted</h3>
+                            <p class="text-sm text-espresso-700">Disangrai berkala tiap pekan demi kesegaran aroma maksimal.</p>
+                        </div>
+                        <div>
+                            <div class="w-11 h-11 rounded-2xl bg-espresso-800/10 text-espresso-800 flex items-center justify-center mb-3">
+                                <i class="fa-solid fa-couch text-lg"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-espresso-900 mb-1">Ruang Nyaman</h3>
+                            <p class="text-sm text-espresso-700">Atmosfer estetik bernuansa kayu untuk fokus maupun santai.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. MENU ANDALAN DENGAN FILTER KATEGORI INTERAKTIF -->
+    <section id="menu" class="py-20 sm:py-28 px-5 sm:px-8 bg-cream-100 border-y border-cream-200">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-terracotta-600 font-semibold text-xs sm:text-sm uppercase tracking-widest block mb-2">Kurasi Rasa</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-espresso-900 mb-4">Menu Andalan Djiwakopi</h2>
+                <p class="text-espresso-700 text-base">
+                    Racikan signature penuh karakter, seduhan manual yang presisi, hingga pendamping kudapan hangat yang dipanggang setiap pagi.
+                </p>
+            </div>
+
+            <!-- Tombol Filter Kategori -->
+            <div id="menu-filters" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+                <button data-category="all" class="filter-btn active px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-espresso-900 text-cream-50 shadow-md">
+                    Semua Menu
+                </button>
+                <button data-category="signature" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-cream-50 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    Signature Coffee
+                </button>
+                <button data-category="manual" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-cream-50 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    Manual Brew
+                </button>
+                <button data-category="non-coffee" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-cream-50 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    Non-Coffee
+                </button>
+                <button data-category="pastries" class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium transition-all bg-cream-50 text-espresso-800 hover:bg-cream-200 border border-cream-300">
+                    Pastries
+                </button>
+            </div>
+
+            <!-- Grid Kartu Menu (Diisi Dinamis via JS) -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Item menu akan dirender oleh JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SUASANA & FASILITAS -->
+    <section id="suasana" class="py-20 sm:py-28 px-5 sm:px-8 bg-cream-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+                <div class="max-w-2xl">
+                    <span class="text-terracotta-600 font-semibold text-xs sm:text-sm uppercase tracking-widest block mb-2">Galeri & Fasilitas</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-espresso-900">Sudut Nyaman untuk Setiap Suasana Hati</h2>
+                </div>
+                <p class="text-espresso-700 max-w-md text-base">
+                    Dirancang dengan pencahayaan hangat dan akustik yang tenang, mendukung produktivitas kerja maupun obrolan panjang hingga malam.
+                </p>
+            </div>
+
+            <!-- Grid Galeri Foto Estetik -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 mb-14">
+                <div class="md:col-span-7 relative rounded-3xl overflow-hidden group h-72 sm:h-96 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80" 
+                         onerror="this.src='https://placehold.co/1200x800/322217/F7F2E9?text=Interior+Utama+Djiwakopi'" 
+                         alt="Interior Utama Djiwakopi" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent flex items-end p-6">
+                        <div>
+                            <span class="text-gold-400 text-xs uppercase tracking-wider font-semibold">Indoor Lounge</span>
+                            <h3 class="font-serif text-2xl text-white font-semibold">Ruang Utama Bernuansa Kayu & Tanaman Hijau</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-5 relative rounded-3xl overflow-hidden group h-72 sm:h-96 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/900x800/4A3525/F7F2E9?text=Slow+Bar+Djiwakopi'" 
+                         alt="Slow Bar Manual Brew Djiwakopi" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent flex items-end p-6">
+                        <div>
+                            <span class="text-gold-400 text-xs uppercase tracking-wider font-semibold">Experience Bar</span>
+                            <h3 class="font-serif text-2xl text-white font-semibold">Slow Bar & Sesi Bincang Kopi</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-5 relative rounded-3xl overflow-hidden group h-64 sm:h-80 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/900x700/1F140E/D4AF37?text=Sudut+Kerja+Tenang'" 
+                         alt="Sudut Kerja dan Baca Djiwakopi" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent flex items-end p-6">
+                        <div>
+                            <span class="text-gold-400 text-xs uppercase tracking-wider font-semibold">Work-Friendly</span>
+                            <h3 class="font-serif text-xl text-white font-semibold">Meja Komunal & Sudut Fokus</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-7 relative rounded-3xl overflow-hidden group h-64 sm:h-80 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=1200&q=80" 
+                         onerror="this.src='https://placehold.co/1200x700/322217/F7F2E9?text=Teras+Outdoor+Djiwakopi'" 
+                         alt="Teras Outdoor Djiwakopi" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent flex items-end p-6">
+                        <div>
+                            <span class="text-gold-400 text-xs uppercase tracking-wider font-semibold">Garden Terrace</span>
+                            <h3 class="font-serif text-xl text-white font-semibold">Area Teras Terbuka & Smoking Lounge</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Kartu Fasilitas Utama -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-6 rounded-2xl bg-cream-100 border border-cream-200 hover:border-gold-500/50 transition-colors">
+                    <div class="w-12 h-12 rounded-2xl bg-espresso-900 text-gold-400 flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-wifi text-lg"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-espresso-900 mb-2">Wi-Fi Kencang 200 Mbps</h3>
+                    <p class="text-sm text-espresso-700 leading-relaxed">Koneksi internet stabil dan berkecepatan tinggi, ideal untuk rapat daring maupun bekerja jarak jauh.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-cream-100 border border-cream-200 hover:border-gold-500/50 transition-colors">
+                    <div class="w-12 h-12 rounded-2xl bg-espresso-900 text-gold-400 flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-plug text-lg"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-espresso-900 mb-2">Colokan di Tiap Meja</h3>
+                    <p class="text-sm text-espresso-700 leading-relaxed">Stopkontak listrik tersedia mudah di setiap sudut tempat duduk tanpa perlu berebut.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-cream-100 border border-cream-200 hover:border-gold-500/50 transition-colors">
+                    <div class="w-12 h-12 rounded-2xl bg-espresso-900 text-gold-400 flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-wind text-lg"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-espresso-900 mb-2">Smoking & Non-Smoking</h3>
+                    <p class="text-sm text-espresso-700 leading-relaxed">Area indoor ber-AC sejuk yang bebas asap rokok serta teras taman semi-outdoor yang asri.</p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-cream-100 border border-cream-200 hover:border-gold-500/50 transition-colors">
+                    <div class="w-12 h-12 rounded-2xl bg-espresso-900 text-gold-400 flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-guitar text-lg"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-espresso-900 mb-2">Live Acoustic</h3>
+                    <p class="text-sm text-espresso-700 leading-relaxed">Alunan musik akustik syahdu setiap Jumat & Sabtu malam mulai pukul 19.30 WIB.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. TESTIMONI PELANGGAN -->
+    <section class="py-20 sm:py-24 px-5 sm:px-8 bg-espresso-900 text-cream-50 relative overflow-hidden">
+        <!-- Dekorasi Latar Halus -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-terracotta-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-gold-400 font-semibold text-xs sm:text-sm uppercase tracking-widest block mb-2">Cerita Mereka</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-cream-50 mb-4">Kesan Hangat dari Sahabat Djiwakopi</h2>
+                <p class="text-cream-300 text-base">
+                    Kebahagiaan terbesar kami adalah melihat pelanggan pulang dengan hati yang lebih tenang.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Testimoni 1 -->
+                <div class="p-8 rounded-3xl bg-espresso-800/80 border border-gold-500/15 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-gold-400 text-sm mb-5">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="font-serif italic text-xl text-cream-100 leading-relaxed mb-6">
+                            "Es Kopi Djiwa Senja-nya juara! Perpaduan espresso yang bold dengan gula aren organik dan hint kayu manisnya terasa sangat seimbang. Tempat favorit buat WFC."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3.5 pt-4 border-t border-white/10">
+                        <div class="w-11 h-11 rounded-full bg-terracotta-500/20 text-terracotta-500 font-serif font-bold text-lg flex items-center justify-center">
+                            AN
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-cream-50 text-sm">Alya Nirmala</h4>
+                            <p class="text-xs text-cream-300">UI/UX Designer • Pelanggan Tetap</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimoni 2 -->
+                <div class="p-8 rounded-3xl bg-espresso-800/80 border border-gold-500/15 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-gold-400 text-sm mb-5">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="font-serif italic text-xl text-cream-100 leading-relaxed mb-6">
+                            "Sebagai penikmat V60, saya terkesan dengan koleksi beans Nusantara di sini. Baristanya ramah menjelaskan profil rasa Flores Bajawa sebelum menyeduh."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3.5 pt-4 border-t border-white/10">
+                        <div class="w-11 h-11 rounded-full bg-gold-500/20 text-gold-400 font-serif font-bold text-lg flex items-center justify-center">
+                            RP
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-cream-50 text-sm">Raka Pratama</h4>
+                            <p class="text-xs text-cream-300">Arsitek & Penikmat Manual Brew</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimoni 3 -->
+                <div class="p-8 rounded-3xl bg-espresso-800/80 border border-gold-500/15 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-1 text-gold-400 text-sm mb-5">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="font-serif italic text-xl text-cream-100 leading-relaxed mb-6">
+                            "Suasana malam Minggu dengan live acoustic-nya intim dan tidak berisik. Almond Croissant hangat dipadukan dengan Hot Cappuccino bikin betah berlama-lama."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3.5 pt-4 border-t border-white/10">
+                        <div class="w-11 h-11 rounded-full bg-cream-200/20 text-cream-200 font-serif font-bold text-lg flex items-center justify-center">
+                            DS
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-cream-50 text-sm">Dimas & Sekar</h4>
+                            <p class="text-xs text-cream-300">Pengunjung Akhir Pekan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. LOKASI, JAM OPERASIONAL & RESERVASI MEJA WHATSAPP -->
+    <section id="lokasi" class="py-20 sm:py-28 px-5 sm:px-8 bg-cream-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-terracotta-600 font-semibold text-xs sm:text-sm uppercase tracking-widest block mb-2">Kunjungi Kami</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-espresso-900 mb-4">Lokasi & Reservasi Meja</h2>
+                <p class="text-espresso-700 text-base">
+                    Amankan sudut favorit Anda untuk bekerja, rapat kecil, atau berkumpul bersama orang tersayang melalui reservasi instan WhatsApp.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                <!-- Kolom Kiri: Info Alamat, Jam Buka & Peta -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="p-7 rounded-3xl bg-cream-50 border border-cream-200 shadow-sm">
+                        <h3 class="font-serif text-2xl font-bold text-espresso-900 mb-5">Kedai Utama Djiwakopi</h3>
+                        
+                        <!-- Alamat & Tombol Salin -->
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-10 h-10 rounded-xl bg-terracotta-500/10 text-terracotta-600 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs uppercase tracking-wider text-espresso-700 font-semibold mb-1">Alamat</p>
+                                <p id="shop-address" class="text-espresso-900 font-medium leading-relaxed mb-3">
+                                    Jl. Melawai Raya No. 42, Kebayoran Baru, Jakarta Selatan 12160
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button id="copy-address-btn" type="button" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cream-200 hover:bg-cream-300 text-espresso-900 text-xs font-semibold transition-colors">
+                                        <i class="fa-regular fa-copy"></i>
+                                        <span>Salin Alamat</span>
+                                    </button>
+                                    <a href="https://maps.google.com/?q=Jl.+Melawai+Raya+Kebayoran+Baru+Jakarta+Selatan" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-espresso-900 hover:bg-espresso-800 text-cream-50 text-xs font-semibold transition-colors">
+                                        <i class="fa-solid fa-diamond-turn-right"></i>
+                                        <span>Buka Google Maps</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jam Operasional -->
+                        <div class="flex items-start gap-4 mb-6 pt-5 border-t border-cream-200">
+                            <div class="w-10 h-10 rounded-xl bg-gold-500/15 text-gold-600 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+                            <div class="w-full">
+                                <p class="text-xs uppercase tracking-wider text-espresso-700 font-semibold mb-2">Jam Operasional</p>
+                                <ul class="space-y-1.5 text-sm text-espresso-800">
+                                    <li class="flex justify-between">
+                                        <span>Senin — Kamis</span>
+                                        <span class="font-semibold">08.00 – 22.00 WIB</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Jumat — Sabtu</span>
+                                        <span class="font-semibold text-terracotta-600">08.00 – 24.00 WIB</span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Minggu</span>
+                                        <span class="font-semibold">07.30 – 22.00 WIB</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Kontak Langsung -->
+                        <div class="flex items-start gap-4 pt-5 border-t border-cream-200">
+                            <div class="w-10 h-10 rounded-xl bg-espresso-800/10 text-espresso-800 flex items-center justify-center shrink-0 mt-1">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wider text-espresso-700 font-semibold mb-1">Kontak & Kemitraan</p>
+                                <p class="text-espresso-900 font-medium text-sm">+62 812-3456-7890</p>
+                                <p class="text-espresso-700 text-sm">halo@djiwakopi.id</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Embed Peta Responsif -->
+                    <div class="rounded-3xl overflow-hidden border border-cream-200 shadow-sm h-56 bg-cream-200">
+                        <iframe 
+                            title="Peta Lokasi Djiwakopi"
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=106.7950%2C-6.2480%2C106.8050%2C-6.2410&amp;layer=mapnik&amp;marker=-6.2445%2C106.8000" 
+                            class="w-full h-full border-0" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Form Reservasi Interaktif -->
+                <div class="lg:col-span-7">
+                    <div class="p-7 sm:p-10 rounded-3xl bg-cream-50 border border-cream-200 shadow-lg">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-espresso-900">Form Reservasi Meja</h3>
+                                <p class="text-sm text-espresso-700 mt-1">Pesan meja lebih awal tanpa biaya tambahan. Terhubung langsung ke WhatsApp barista kami.</p>
+                            </div>
+                            <div class="hidden sm:flex w-12 h-12 rounded-2xl bg-emerald-600/10 text-emerald-700 items-center justify-center">
+                                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <form id="reservation-form" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label for="res-name" class="block text-xs font-semibold uppercase tracking-wider text-espresso-800 mb-2">Nama Lengkap *</label>
+                                    <input type="text" id="res-name" required placeholder="Contoh: Budi Santoso"
+                                           class="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-cream-300 text-espresso-900 placeholder-espresso-700/50 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 transition-all">
+                                </div>
+                                <div>
+                                    <label for="res-guests" class="block text-xs font-semibold uppercase tracking-wider text-espresso-800 mb-2">Jumlah Tamu *</label>
+                                    <select id="res-guests" required
+                                            class="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-cream-300 text-espresso-900 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 transition-all">
+                                        <option value="1 Orang">1 Orang (Solo / Kerja)</option>
+                                        <option value="2 Orang" selected>2 Orang</option>
+                                        <option value="3 - 4 Orang">3 - 4 Orang</option>
+                                        <option value="5 - 8 Orang">5 - 8 Orang (Grup)</option>
+                                        <option value="Lebih dari 8 Orang">Lebih dari 8 Orang (Acara Khusus)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label for="res-date" class="block text-xs font-semibold uppercase tracking-wider text-espresso-800 mb-2">Tanggal Kedatangan *</label>
+                                    <input type="date" id="res-date" required
+                                           class="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-cream-300 text-espresso-900 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 transition-all">
+                                </div>
+                                <div>
+                                    <label for="res-time" class="block text-xs font-semibold uppercase tracking-wider text-espresso-800 mb-2">Jam Kedatangan *</label>
+                                    <input type="time" id="res-time" value="16:00" required
+                                           class="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-cream-300 text-espresso-900 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 transition-all">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-espresso-800 mb-2">Pilihan Area Tempat Duduk *</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="res-area" value="Indoor (Non-Smoking / AC)" checked class="peer sr-only">
+                                        <div class="p-3.5 rounded-xl border border-cream-300 bg-cream-100/50 peer-checked:border-terracotta-500 peer-checked:bg-terracotta-500/10 flex items-center gap-3 transition-all">
+                                            <i class="fa-solid fa-snowflake text-terracotta-600"></i>
+                                            <span class="text-sm font-medium text-espresso-900">Indoor (Non-Smoking / AC)</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="res-area" value="Outdoor Terrace (Smoking)" class="peer sr-only">
+                                        <div class="p-3.5 rounded-xl border border-cream-300 bg-cream-100/50 peer-checked:border-terracotta-500 peer-checked:bg-terracotta-500/10 flex items-center gap-3 transition-all">
+                                            <i class="fa-solid fa-leaf text-terracotta-600"></i>
+                                            <span class="text-sm font-medium text-espresso-900">Outdoor Terrace (Smoking)</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="res-notes" class="block text-xs font-semibold uppercase tracking-wider text-espresso-800 mb-2">Catatan Tambahan (Opsional)</label>
+                                <textarea id="res-notes" rows="3" placeholder="Misal: Dekat colokan listrik, butuh kursi bayi, atau pesan menu lebih dulu..."
+                                          class="w-full px-4 py-3 rounded-xl bg-cream-100/70 border border-cream-300 text-espresso-900 placeholder-espresso-700/50 focus:outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-500/20 transition-all"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 px-6 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold tracking-wide shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 text-base">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                                <span>Kirim Reservasi via WhatsApp</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. FOOTER LENGKAP -->
+    <footer class="bg-espresso-950 text-cream-200 pt-16 pb-10 px-5 sm:px-8 border-t border-gold-500/20">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+                <!-- Brand & Deskripsi -->
+                <div class="md:col-span-5">
+                    <a href="#beranda" class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 rounded-full bg-gold-500/20 border border-gold-500 flex items-center justify-center text-gold-400">
+                            <i class="fa-solid fa-mug-hot"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-cream-50">
+                            Djiwa<span class="text-gold-400 italic font-normal">kopi</span>
+                        </span>
+                    </a>
+                    <p class="text-cream-300/80 text-sm leading-relaxed max-w-sm mb-6">
+                        Menyeduh biji kopi terbaik Nusantara dengan sepenuh hati. Ruang hangat untuk berhenti sejenak, menemukan inspirasi, dan berbagi cerita.
+                    </p>
+                    <!-- Tautan Media Sosial -->
+                    <div class="flex items-center gap-3">
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram Djiwakopi" class="w-10 h-10 rounded-full bg-white/5 hover:bg-gold-500 text-cream-100 hover:text-espresso-950 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok Djiwakopi" class="w-10 h-10 rounded-full bg-white/5 hover:bg-gold-500 text-cream-100 hover:text-espresso-950 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X Twitter Djiwakopi" class="w-10 h-10 rounded-full bg-white/5 hover:bg-gold-500 text-cream-100 hover:text-espresso-950 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Djiwakopi" class="w-10 h-10 rounded-full bg-white/5 hover:bg-gold-500 text-cream-100 hover:text-espresso-950 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigasi Cepat -->
+                <div class="md:col-span-3">
+                    <h4 class="font-serif text-lg font-bold text-cream-50 mb-4">Navigasi</h4>
+                    <ul class="space-y-2.5 text-sm text-cream-300/80">
+                        <li><a href="#beranda" class="hover:text-gold-400 transition-colors">Beranda</a></li>
+                        <li><a href="#tentang" class="hover:text-gold-400 transition-colors">Filosofi & Tentang Kami</a></li>
+                        <li><a href="#menu" class="hover:text-gold-400 transition-colors">Daftar Menu</a></li>
+                        <li><a href="#suasana" class="hover:text-gold-400 transition-colors">Suasana & Fasilitas</a></li>
+                        <li><a href="#lokasi" class="hover:text-gold-400 transition-colors">Reservasi Meja</a></li>
+                    </ul>
+                </div>
+
+                <!-- Highlight Biji Kopi -->
+                <div class="md:col-span-4">
+                    <h4 class="font-serif text-lg font-bold text-cream-50 mb-4">Single Origin Bulan Ini</h4>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                        <span class="text-xs text-gold-400 uppercase tracking-wider font-semibold">Limited Micro-Lot</span>
+                        <p class="font-serif text-lg text-cream-50 font-semibold mt-0.5">Flores Bajawa Honey Process</p>
+                        <p class="text-xs text-cream-300/80 mt-1">Tasting notes: Gula merah, jeruk mandarin, dan cokelat hitam lembut. Tersedia untuk seduhan V60 & Japanese Iced.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream-300/60">
+                <p>&copy; <span id="current-year">2026</span> Djiwakopi Indonesia. Seluruh hak cipta dilindungi.</p>
+                <p>Diseduh dengan penuh kehangatan di Jakarta.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT INTERNAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. DATA MENU DJIWAKOPI
+            const menuItems = [
+                {
+                    id: 1,
+                    name: "Es Kopi Djiwa Senja",
+                    category: "signature",
+                    categoryLabel: "Signature Coffee",
+                    price: "Rp 28.000",
+                    badge: "Best Seller",
+                    description: "Perpaduan house blend espresso, susu segar creamy, gula aren organik pilihan, dan sentuhan halus kayu manis.",
+                    image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 2,
+                    name: "Pandan Melaka Latte",
+                    category: "signature",
+                    categoryLabel: "Signature Coffee",
+                    price: "Rp 32.000",
+                    badge: "Favorit",
+                    description: "Ekstrak daun pandan wangi alami berpadu dengan espresso arabika dan sirup gula melaka yang legit.",
+                    image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 3,
+                    name: "Orange Blossom Cold Brew",
+                    category: "signature",
+                    categoryLabel: "Signature Coffee",
+                    price: "Rp 35.000",
+                    badge: "Menyegarkan",
+                    description: "Kopi cold brew yang diseduh dingin 16 jam dengan irisan jeruk sunkist segar dan aroma bunga jeruk.",
+                    image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 4,
+                    name: "V60 Aceh Gayo Wine",
+                    category: "manual",
+                    categoryLabel: "Manual Brew",
+                    price: "Rp 34.000",
+                    badge: "Single Origin",
+                    description: "Seduhan pour-over presisi dengan catatan rasa buah beri merah, nangka matang, dan aftertaste bersih.",
+                    image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 5,
+                    name: "Japanese Iced Flores Bajawa",
+                    category: "manual",
+                    categoryLabel: "Manual Brew",
+                    price: "Rp 36.000",
+                    badge: "Aromatik",
+                    description: "Diseduh panas langsung di atas es batu untuk mengunci aroma floral, jeruk manis, dan dark chocolate.",
+                    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 6,
+                    name: "Uji Matcha Ceremonial Latte",
+                    category: "non-coffee",
+                    categoryLabel: "Non-Coffee",
+                    price: "Rp 35.000",
+                    badge: "Premium",
+                    description: "Bubuk teh hijau Uji Jepang autentik yang dikocok dengan whisk bambu bersama susu segar lembut.",
+                    image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 7,
+                    name: "Cokelat Rempah Nusantara",
+                    category: "non-coffee",
+                    categoryLabel: "Non-Coffee",
+                    price: "Rp 30.000",
+                    badge: "Hangat",
+                    description: "Cokelat hitam murni asal Sulawesi diracik dengan sedikit jahe merah bakar dan kapulaga yang menenangkan.",
+                    image: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 8,
+                    name: "Almond Butter Croissant",
+                    category: "pastries",
+                    categoryLabel: "Pastries",
+                    price: "Rp 29.000",
+                    badge: "Freshly Baked",
+                    description: "Croissant berlapis renyah dengan isian krim almond panggang dan taburan irisan kacang almond di atasnya.",
+                    image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=80"
+                },
+                {
+                    id: 9,
+                    name: "Cinnamon Roll Gula Aren",
+                    category: "pastries",
+                    categoryLabel: "Pastries",
+                    price: "Rp 26.000",
+                    badge: "Teman Kopi",
+                    description: "Roti gulung lembut beraroma kayu manis Ceylon dengan lelehan glasir gula aren dan cream cheese ringan.",
+                    image: "https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=700&q=80"
+                }
+            ];
+
+            // 2. RENDER & FILTER MENU INTERAKTIF
+            const menuGrid = document.getElementById('menu-grid');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+
+            function renderMenu(category = 'all') {
+                const filtered = category === 'all' 
+                    ? menuItems 
+                    : menuItems.filter(item => item.category === category);
+
+                menuGrid.innerHTML = filtered.map(item => `
+                    <article class="menu-card bg-cream-50 rounded-3xl overflow-hidden border border-cream-200 shadow-sm hover:shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-56 overflow-hidden bg-cream-200">
+                                <img src="${item.image}" 
+                                     onerror="this.src='https://placehold.co/700x500/322217/F7F2E9?text=${encodeURIComponent(item.name)}'" 
+                                     alt="${item.name}" 
+                                     class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                                     loading="lazy">
+                                <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-espresso-950/80 backdrop-blur-sm text-gold-400 text-xs font-semibold tracking-wide">
+                                    ${item.badge}
+                                </span>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <span class="text-xs font-semibold uppercase tracking-wider text-terracotta-600">${item.categoryLabel}</span>
+                                    <span class="font-serif text-xl font-bold text-espresso-900">${item.price}</span>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold text-espresso-900 mb-2">${item.name}</h3>
+                                <p class="text-sm text-espresso-700 leading-relaxed">${item.description}</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2">
+                            <a href="#lokasi" onclick="prefillMenuNote('${item.name}')" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-espresso-900 hover:text-terracotta-600 transition-colors">
+                                <span>Pesan saat reservasi</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                `).join('');
+            }
+
+            // Inisialisasi menu awal
+            renderMenu('all');
+
+            // Event Listener untuk tombol filter kategori
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('bg-espresso-900', 'text-cream-50', 'shadow-md');
+                        b.classList.add('bg-cream-50', 'text-espresso-800', 'border', 'border-cream-300');
+                    });
+                    btn.classList.remove('bg-cream-50', 'text-espresso-800', 'border', 'border-cream-300');
+                    btn.classList.add('bg-espresso-900', 'text-cream-50', 'shadow-md');
+
+                    const selectedCategory = btn.getAttribute('data-category');
+                    renderMenu(selectedCategory);
+                });
+            });
+
+            // Fungsi bantu mengisi catatan menu pada form reservasi
+            window.prefillMenuNote = function(menuName) {
+                const notesField = document.getElementById('res-notes');
+                const currentVal = notesField.value.trim();
+                if (!currentVal.includes(menuName)) {
+                    notesField.value = currentVal 
+                        ? `${currentVal}, tambah pesanan: ${menuName}` 
+                        : `Ingin memesan: ${menuName}`;
+                }
+                showToast(`"${menuName}" ditambahkan ke catatan reservasi.`);
+            };
+
+            // 3. STICKY NAVBAR & MOBILE MENU TOGGLE
+            const navbar = document.getElementById('navbar');
+            const navBrandText = document.getElementById('nav-brand-text');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function updateNavbarStyle() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('glass-nav', 'shadow-sm', 'border-cream-200', 'py-3');
+                    navbar.classList.remove('py-4', 'border-transparent');
+                    navBrandText.classList.remove('text-cream-50');
+                    navBrandText.classList.add('text-espresso-900');
+                    mobileMenuBtn.classList.remove('text-cream-50');
+                    mobileMenuBtn.classList.add('text-espresso-900');
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-cream-100');
+                        link.classList.add('text-espresso-800');
+                    });
+                } else {
+                    navbar.classList.remove('glass-nav', 'shadow-sm', 'border-cream-200', 'py-3');
+                    navbar.classList.add('py-4', 'border-transparent');
+                    navBrandText.classList.add('text-cream-50');
+                    navBrandText.classList.remove('text-espresso-900');
+                    mobileMenuBtn.classList.add('text-cream-50');
+                    mobileMenuBtn.classList.remove('text-espresso-900');
+                    navLinks.forEach(link => {
+                        link.classList.add('text-cream-100');
+                        link.classList.remove('text-espresso-800');
+                    });
+                }
+            }
+
+            window.addEventListener('scroll', updateNavbarStyle);
+            updateNavbarStyle();
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    hamburgerIcon.classList.remove('fa-bars');
+                    hamburgerIcon.classList.add('fa-xmark');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    hamburgerIcon.classList.add('fa-bars');
+                    hamburgerIcon.classList.remove('fa-xmark');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    hamburgerIcon.classList.add('fa-bars');
+                    hamburgerIcon.classList.remove('fa-xmark');
+                });
+            });
+
+            // 4. NOTIFIKASI TOAST CUSTOM (PENGGANTI ALERT)
+            function showToast(message, type = 'success') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                const bgColor = type === 'success' ? 'bg-espresso-900 border-gold-500/40' : 'bg-terracotta-700 border-terracotta-500';
+                const iconClass = type === 'success' ? 'fa-circle-check text-gold-400' : 'fa-circle-exclamation text-white';
+
+                toast.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl ${bgColor} border text-cream-50 text-sm shadow-2xl transform transition-all duration-300 translate-y-4 opacity-0`;
+                toast.innerHTML = `
+                    <i class="fa-solid ${iconClass} text-base"></i>
+                    <span>${message}</span>
+                `;
+                container.appendChild(toast);
+
+                requestAnimationFrame(() => {
+                    toast.classList.remove('translate-y-4', 'opacity-0');
+                });
+
+                setTimeout(() => {
+                    toast.classList.add('translate-y-4', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3500);
+            }
+
+            // 5. TOMBOL SALIN ALAMAT (KOMPATIBEL IFRAME & BROWSER MODERN)
+            const copyBtn = document.getElementById('copy-address-btn');
+            const addressText = document.getElementById('shop-address').innerText.trim();
+
+            copyBtn.addEventListener('click', () => {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = addressText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Alamat Djiwakopi berhasil disalin ke papan klip!');
+                } catch (err) {
+                    showToast('Gagal menyalin alamat secara otomatis.', 'error');
+                }
+                document.body.removeChild(tempInput);
+            });
+
+            // 6. SET TANGGAL DEFAULT & INTEGRASI RESERVASI WHATSAPP
+            const dateInput = document.getElementById('res-date');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+            dateInput.value = today;
+
+            const reservationForm = document.getElementById('reservation-form');
+            reservationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('res-name').value.trim();
+                const guests = document.getElementById('res-guests').value;
+                const dateRaw = document.getElementById('res-date').value;
+                const time = document.getElementById('res-time').value;
+                const area = document.querySelector('input[name="res-area"]:checked').value;
+                const notes = document.getElementById('res-notes').value.trim();
+
+                if (!name || !dateRaw || !time) {
+                    showToast('Mohon lengkapi nama, tanggal, dan jam kedatangan.', 'error');
+                    return;
+                }
+
+                // Format tanggal menjadi lebih ramah dibaca (DD/MM/YYYY)
+                const [year, month, day] = dateRaw.split('-');
+                const formattedDate = `${day}/${month}/${year}`;
+
+                // Nomor WhatsApp Djiwakopi (format internasional tanpa +)
+                const waNumber = '6281234567890';
+                const message = [
+                    `Halo *Djiwakopi*! Saya ingin melakukan reservasi meja:`,
+                    ``,
+                    `• *Nama:* ${name}`,
+                    `• *Jumlah Tamu:* ${guests}`,
+                    `• *Tanggal:* ${formattedDate}`,
+                    `• *Jam:* ${time} WIB`,
+                    `• *Area:* ${area}`,
+                    notes ? `• *Catatan:* ${notes}` : null,
+                    ``,
+                    `Mohon konfirmasi ketersediaan mejanya. Terima kasih!`
+                ].filter(Boolean).join('\n');
+
+                const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+                showToast('Mengarahkan ke WhatsApp Djiwakopi...');
+                
+                setTimeout(() => {
+                    window.open(waUrl, '_blank', 'noopener,noreferrer');
+                }, 600);
+            });
+
+            // Set tahun dinamis pada footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
